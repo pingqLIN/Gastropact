@@ -7,7 +7,7 @@
 
 [繁體中文](README.zh-tw.md)
 
-![A snail leaves a translucent mucus trail behind its path, symbolizing the traceable execution records preserved by TaskContracts.](docs/assets/readme/taskcontracts-snail-hero-v3.png)
+![Gastropact snail chef banner, with the mascot carrying a wok and leaving a visible trail behind it.](docs/assets/readme/gastropact-banner.webp)
 
 Gastropact is a local Python CLI built on the TaskContracts protocol for developers coordinating AI-assisted work across sessions, people, and agents. It preserves the authorized objective, records progress, checks submitted evidence, and helps recover interrupted state transitions.
 
@@ -16,6 +16,8 @@ A new participant can answer four questions: **What was authorized? What is reco
 > Development preview, distributed as source. The local verification gate has passed on Windows and Ubuntu WSL2, including Linux POSIX checks. Remote CI and physical power-loss acceptance remain unverified. See [limits](#scope-and-limits) before adoption and [MIT license](LICENSE) for reuse terms.
 
 The snail represents work that leaves a trace: just as its mucus trail marks where it has traveled, TaskContracts preserves records of task progress and state transitions for later inspection and handoff.
+
+![The Gastropact snail looks back and studies its own trail and the scattered ingredients along the path.](docs/assets/readme/gastropact-trace-inspection.webp)
 
 [Start here](#start-here) · [Development problems](#problems-it-addresses) · [Workflow](#how-a-task-moves-forward) · [Verification](#verification-status) · [Limits](#scope-and-limits)
 
