@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.2",
+  "task_id": "replace-with-task-id",
+  "revision": 0,
+  "previous_state_digest": null,
+  "status": "READY",
+  "current_state": "No task action has completed.",
+  "completed_actions": [],
+  "last_completed_action_id": null,
+  "next_action_id": "inspect-authority",
+  "next_action": "Inspect production authority.",
+  "blocker": null,
+  "resume_from": "inspect-authority",
+  "rounds_completed": 0,
+  "benchmark_progress": "none",
+  "gate_status": [{"id": "repository-gate", "satisfied": false, "evidence": []}],
+  "approvals": [],
+  "last_verified": null,
+  "last_verified_commit": null,
+  "artifact_path": null,
+  "updated_at": "2026-08-22T00:00:00Z"
+}

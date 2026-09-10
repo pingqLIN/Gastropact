@@ -1,0 +1,10 @@
+[project]
+name = "gastropact"
+version = "0.2.0.dev0"
+description = "Fail-closed task contracts and a local automation control plane for AI agents"
+requires-python = ">=3.11"
+dependencies = []
+license = {file = "LICENSE"}
+
+[tool.taskcontracts]
+runtime_root = ".local"

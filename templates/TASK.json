@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.2",
+  "contract_version": 2,
+  "task_id": "replace-with-task-id",
+  "project": {
+    "project_id": "replace-with-project-id",
+    "expected_root": "C:\\replace\\with\\project",
+    "git": {
+      "required": true,
+      "remote": "https://example.invalid/owner/repository.git",
+      "authorized_commits": [
+        {"id": "OLD", "ref": "origin/example-old", "commit": "0000000000000000000000000000000000000000"},
+        {"id": "NEW", "ref": "origin/example-new", "commit": "1111111111111111111111111111111111111111"}
+      ],
+      "require_clean_worktree": true,
+      "forbid_detached_head": true,
+      "forbid_special_operation": true
+    }
+  },
+  "task_type": "benchmark",
+  "objective": "Replace with an explicit objective that repository state cannot redefine.",
+  "authority": {"kind": "user-direct", "source_ref": "replace-with-authority-reference", "issued_at": "2026-08-22T00:00:00Z", "supersedes": null},
+  "authority_order": ["platform-runtime", "tool-mcp-enforcement", "current-user-authorization", "effective-agents-policy", "sealed-task", "validated-state", "repository-runtime-evidence", "handoff-events-artifacts"],
+  "baseline": {"description": "Replace with the verified start state.", "required_inputs": []},
+  "allowed_actions": [
+    {
+      "id": "inspect-authority",
+      "action": "Inspect production authority.",
+      "task_scope_authorized": true,
+      "risk_level": "L1",
+      "requires_fresh_approval": false,
+      "prerequisites": [],
+      "allowed_predecessors": [],
+      "expected_commit_authority": "OLD",
+      "allowed_next_actions": [],
+      "required_hard_gates": [],
+      "required_evidence_classes": ["repository-authority"],
+      "route_class": "benchmark",
+      "allowed_workspace_paths": [],
+      "executor_routes": ["KEEP_SINGLE"],
+      "authority_expansion": false
+    }
+  ],
+  "forbidden_actions": ["Do not infer objective from repository state.", "Do not bypass higher policy or risk approval."],
+  "hard_gates": [{"id": "repository-gate", "type": "repository-assertion", "required": true, "required_state": "phase commit and clean Git state verified", "required_evidence": ["repository-authority"], "evidence_scope": "action"}],
+  "acceptance": [{"id": "benchmark", "criterion": "Required raw evidence exists.", "evidence_classes": ["benchmark-round"], "substitution_forbidden": true}],
+  "artifacts": {"root": "C:\\replace\\with\\artifacts", "expected": ["raw-results.json"]},
+  "policy_boundaries": {"task_scope_is_execution_approval": false, "denied_action_ids": [], "handoff_authority_role": "reference-envelope-only", "repository_state_authority_role": "supporting-evidence-only"},
+  "resource_requirements": [],
+  "threat_model": {"seal_role": "accidental-procedural-integrity", "external_authenticity_anchor": false}
+}

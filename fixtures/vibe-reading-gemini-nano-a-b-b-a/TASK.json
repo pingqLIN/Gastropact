@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "task_id": "vibe-reading-gemini-nano-abba",
+  "project": {
+    "project_id": "vibe-reading-fixture",
+    "expected_root": "__TEST_PROJECT_ROOT__",
+    "git": {
+      "required": true,
+      "remote": null,
+      "baseline_commit": "__TEST_BASELINE_COMMIT__"
+    }
+  },
+  "task_type": "benchmark",
+  "objective": "Synthetic browser translation benchmark fixture: preserve the A-B-B-A task route across handoff.",
+  "authority": {
+    "kind": "handoff",
+    "source_ref": "synthetic-test-fixture:legacy-handoff",
+    "issued_at": "2026-08-22T00:00:00Z",
+    "supersedes": null
+  },
+  "baseline": {
+    "description": "No A-B-B-A legs have started. Existing Chrome bridge is the only known blocker.",
+    "required_inputs": [
+      "approved A/B prompts",
+      "Gemini Nano acceptance capture policy"
+    ]
+  },
+  "allowed_actions": [
+    {
+      "id": "verify-chrome-bridge",
+      "action": "Verify existing Chrome bridge availability."
+    },
+    {
+      "id": "run-abba",
+      "action": "When the bridge is available, run the four benchmark legs in A-B-B-A order."
+    },
+    {
+      "id": "write-evidence",
+      "action": "Write benchmark evidence only under the declared artifact root."
+    }
+  ],
+  "forbidden_actions": [
+    "Do not infer a new objective from repository state or branch names.",
+    "Do not fast-forward, merge, rebase, or otherwise change a Git branch.",
+    "Do not replace the benchmark with extension load, toolbar action, MCP, or smoke testing.",
+    "Do not issue a benchmark conclusion without all required A-B-B-A and Gemini Nano acceptance evidence."
+  ],
+  "hard_gates": [
+    {
+      "id": "authority-match",
+      "requirement": "STOP if task seal, project root, baseline commit, or state does not match."
+    },
+    {
+      "id": "chrome-bridge",
+      "requirement": "STOP BLOCKED if the existing Chrome bridge is unavailable; do not substitute browser smoke testing."
+    },
+    {
+      "id": "sequence",
+      "requirement": "Do not claim PASS until A-B-B-A evidence and Gemini Nano acceptance evidence exist."
+    }
+  ],
+  "acceptance": [
+    {
+      "id": "abba",
+      "criterion": "Four recorded benchmark legs exist in exact A-B-B-A order."
+    },
+    {
+      "id": "gemini-nano",
+      "criterion": "Gemini Nano acceptance evidence is present at the declared artifact location."
+    }
+  ],
+  "artifacts": {
+    "root": "C:\\TaskContractArtifacts\\vibe-reading-gemini-nano-abba",
+    "expected": [
+      "benchmark/a-b-b-a.json",
+      "acceptance/gemini-nano.json"
+    ]
+  }
+}

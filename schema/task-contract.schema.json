@@ -1,0 +1,251 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Task Contract v1 through v1.2",
+  "oneOf": [
+    {"$ref": "#/$defs/v1"},
+    {"$ref": "#/$defs/v11"},
+    {"$ref": "#/$defs/v12"}
+  ],
+  "$defs": {
+    "projectV1": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["project_id", "expected_root", "git"],
+      "properties": {
+        "project_id": {"type": "string", "minLength": 1},
+        "expected_root": {"type": "string", "minLength": 1},
+        "git": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["required", "remote", "baseline_commit"],
+          "properties": {
+            "required": {"type": "boolean"},
+            "remote": {"type": ["string", "null"]},
+            "baseline_commit": {"type": ["string", "null"]}
+          }
+        }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "source_ref", "issued_at", "supersedes"],
+      "properties": {
+        "kind": {"enum": ["user-direct", "handoff", "work-item"]},
+        "source_ref": {"type": "string", "minLength": 1},
+        "issued_at": {"type": "string", "format": "date-time"},
+        "supersedes": {"type": ["string", "null"]}
+      }
+    },
+    "baseline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["description", "required_inputs"],
+      "properties": {
+        "description": {"type": "string"},
+        "required_inputs": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["root", "expected"],
+      "properties": {
+        "root": {"type": "string"},
+        "expected": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "v1": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "task_id", "project", "task_type", "objective", "authority", "baseline", "allowed_actions", "forbidden_actions", "hard_gates", "acceptance", "artifacts"],
+      "properties": {
+        "schema_version": {"const": "1.0"},
+        "task_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{2,79}$"},
+        "project": {"$ref": "#/$defs/projectV1"},
+        "task_type": {"enum": ["benchmark", "development", "audit", "research", "operations"]},
+        "objective": {"type": "string", "minLength": 1},
+        "authority": {"$ref": "#/$defs/authority"},
+        "baseline": {"$ref": "#/$defs/baseline"},
+        "allowed_actions": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["id", "action"], "properties": {"id": {"type": "string"}, "action": {"type": "string"}}}},
+        "forbidden_actions": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "hard_gates": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["id", "requirement"], "properties": {"id": {"type": "string"}, "requirement": {"type": "string"}}}},
+        "acceptance": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["id", "criterion"], "properties": {"id": {"type": "string"}, "criterion": {"type": "string"}}}},
+        "artifacts": {"$ref": "#/$defs/artifacts"}
+      }
+    },
+    "commitAuthority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "ref", "commit"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "ref": {"type": "string", "minLength": 1},
+        "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      }
+    },
+    "projectV11": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["project_id", "expected_root", "git"],
+      "properties": {
+        "project_id": {"type": "string", "minLength": 1},
+        "expected_root": {"type": "string", "minLength": 1},
+        "git": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["required", "remote", "authorized_commits", "require_clean_worktree", "forbid_detached_head", "forbid_special_operation"],
+          "properties": {
+            "required": {"const": true},
+            "remote": {"type": "string", "minLength": 1},
+            "authorized_commits": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/commitAuthority"}},
+            "require_clean_worktree": {"const": true},
+            "forbid_detached_head": {"const": true},
+            "forbid_special_operation": {"const": true}
+          }
+        }
+      }
+    },
+    "actionV11": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "action", "task_scope_authorized", "risk_level", "requires_fresh_approval", "prerequisites", "allowed_predecessors", "expected_commit_authority", "allowed_next_actions", "required_hard_gates", "required_evidence_classes", "route_class"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "action": {"type": "string", "minLength": 1},
+        "task_scope_authorized": {"const": true},
+        "risk_level": {"enum": ["L0", "L1", "L2", "L3", "L4"]},
+        "requires_fresh_approval": {"type": "boolean"},
+        "prerequisites": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "allowed_predecessors": {"type": "array", "items": {"type": ["string", "null"]}, "uniqueItems": true},
+        "expected_commit_authority": {"type": ["string", "null"]},
+        "allowed_next_actions": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "required_hard_gates": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "required_evidence_classes": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "route_class": {"enum": ["benchmark", "development", "audit", "research", "operations"]}
+      }
+    },
+    "actionV12": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "action", "task_scope_authorized", "risk_level", "requires_fresh_approval", "prerequisites", "allowed_predecessors", "expected_commit_authority", "allowed_next_actions", "required_hard_gates", "required_evidence_classes", "route_class", "allowed_workspace_paths", "executor_routes", "authority_expansion"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "action": {"type": "string", "minLength": 1},
+        "task_scope_authorized": {"const": true},
+        "risk_level": {"enum": ["L0", "L1", "L2", "L3", "L4"]},
+        "requires_fresh_approval": {"type": "boolean"},
+        "prerequisites": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "allowed_predecessors": {"type": "array", "items": {"type": ["string", "null"]}, "uniqueItems": true},
+        "expected_commit_authority": {"type": ["string", "null"]},
+        "allowed_next_actions": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "required_hard_gates": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "required_evidence_classes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "route_class": {"enum": ["benchmark", "development", "audit", "research", "operations"]},
+        "allowed_workspace_paths": {"type": "array", "items": {"type": "string", "minLength": 1, "pattern": "^(?![A-Za-z]:)(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\\\]+$"}, "uniqueItems": true},
+        "executor_routes": {"type": "array", "minItems": 1, "items": {"const": "KEEP_SINGLE"}, "uniqueItems": true},
+        "authority_expansion": {"type": "boolean"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"risk_level": {"enum": ["L3", "L4"]}}, "required": ["risk_level"]},
+          "then": {"properties": {"requires_fresh_approval": {"const": true}}}
+        }
+      ]
+    },
+    "hardGateV11": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "required", "required_state", "required_evidence", "evidence_scope"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "type": {"enum": ["repository-assertion", "policy-assertion", "runtime-assertion", "engine-assertion", "session-assertion", "artifact-assertion"]},
+        "required": {"type": "boolean"},
+        "required_state": {"type": "string", "minLength": 1},
+        "required_evidence": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+        "evidence_scope": {"enum": ["task", "action"]},
+        "minimum_evidence": {"type": "integer", "minimum": 1},
+        "required_verified_actions": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+      }
+    },
+    "acceptanceV11": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "criterion", "evidence_classes", "substitution_forbidden"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "criterion": {"type": "string", "minLength": 1},
+        "evidence_classes": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+        "substitution_forbidden": {"const": true}
+      }
+    },
+    "v11": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "contract_version", "task_id", "project", "task_type", "objective", "authority", "authority_order", "baseline", "allowed_actions", "forbidden_actions", "hard_gates", "acceptance", "artifacts", "policy_boundaries", "resource_requirements", "threat_model"],
+      "properties": {
+        "schema_version": {"const": "1.1"},
+        "contract_version": {"const": 1},
+        "task_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{2,79}$"},
+        "project": {"$ref": "#/$defs/projectV11"},
+        "task_type": {"enum": ["benchmark", "development", "audit", "research", "operations"]},
+        "objective": {"type": "string", "minLength": 1},
+        "authority": {"$ref": "#/$defs/authority"},
+        "authority_order": {"type": "array", "minItems": 8, "items": {"type": "string"}},
+        "baseline": {"$ref": "#/$defs/baseline"},
+        "allowed_actions": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/actionV11"}},
+        "forbidden_actions": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "hard_gates": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/hardGateV11"}},
+        "acceptance": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/acceptanceV11"}},
+        "artifacts": {"$ref": "#/$defs/artifacts"},
+        "policy_boundaries": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["task_scope_is_execution_approval", "denied_action_ids", "handoff_authority_role", "repository_state_authority_role"],
+          "properties": {
+            "task_scope_is_execution_approval": {"const": false},
+            "denied_action_ids": {"type": "array", "items": {"type": "string"}},
+            "handoff_authority_role": {"const": "reference-envelope-only"},
+            "repository_state_authority_role": {"const": "supporting-evidence-only"}
+          }
+        },
+        "resource_requirements": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["resource_class", "purpose", "authority_role"], "properties": {"resource_class": {"type": "string"}, "purpose": {"type": "string"}, "authority_role": {"const": "soft-hint-not-lock-or-evidence"}}}},
+        "threat_model": {"type": "object", "additionalProperties": false, "required": ["seal_role", "external_authenticity_anchor"], "properties": {"seal_role": {"const": "accidental-procedural-integrity"}, "external_authenticity_anchor": {"const": false}}}
+      }
+    },
+    "v12": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "contract_version", "task_id", "project", "task_type", "objective", "authority", "authority_order", "baseline", "allowed_actions", "forbidden_actions", "hard_gates", "acceptance", "artifacts", "policy_boundaries", "resource_requirements", "threat_model"],
+      "properties": {
+        "schema_version": {"const": "1.2"},
+        "contract_version": {"const": 2},
+        "task_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{2,79}$"},
+        "project": {"$ref": "#/$defs/projectV11"},
+        "task_type": {"enum": ["benchmark", "development", "audit", "research", "operations"]},
+        "objective": {"type": "string", "minLength": 1},
+        "authority": {"$ref": "#/$defs/authority"},
+        "authority_order": {"type": "array", "minItems": 8, "items": {"type": "string"}},
+        "baseline": {"$ref": "#/$defs/baseline"},
+        "allowed_actions": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/actionV12"}},
+        "forbidden_actions": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "hard_gates": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/hardGateV11"}},
+        "acceptance": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/acceptanceV11"}},
+        "artifacts": {"$ref": "#/$defs/artifacts"},
+        "policy_boundaries": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["task_scope_is_execution_approval", "denied_action_ids", "handoff_authority_role", "repository_state_authority_role"],
+          "properties": {
+            "task_scope_is_execution_approval": {"const": false},
+            "denied_action_ids": {"type": "array", "items": {"type": "string"}},
+            "handoff_authority_role": {"const": "reference-envelope-only"},
+            "repository_state_authority_role": {"const": "supporting-evidence-only"}
+          }
+        },
+        "resource_requirements": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["resource_class", "purpose", "authority_role"], "properties": {"resource_class": {"type": "string"}, "purpose": {"type": "string"}, "authority_role": {"const": "soft-hint-not-lock-or-evidence"}}}},
+        "threat_model": {"type": "object", "additionalProperties": false, "required": ["seal_role", "external_authenticity_anchor"], "properties": {"seal_role": {"const": "accidental-procedural-integrity"}, "external_authenticity_anchor": {"const": false}}}
+      }
+    }
+  }
+}

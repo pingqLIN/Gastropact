@@ -1,0 +1,10 @@
+{
+  "name": "gastropact",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Repository-local tooling dependencies for Gastropact verification.",
+  "devDependencies": {
+    "ajv": "8.20.0"
+  },
+  "license": "MIT"
+}

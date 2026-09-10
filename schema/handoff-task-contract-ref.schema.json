@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DevGov handoff Task Contract reference adapter",
+  "type": "object",
+  "required": ["taskContractRef"],
+  "properties": {
+    "taskContractRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["taskId", "schemaVersion", "contractSha256", "stateRevision", "authorityRole", "verificationRequired"],
+      "properties": {
+        "taskId": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{2,79}$"},
+        "schemaVersion": {"const": "task-contract.v1.1"},
+        "contractSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "stateRevision": {"type": "integer", "minimum": 0},
+        "authorityRole": {"const": "external-task-definition"},
+        "verificationRequired": {"const": true}
+      }
+    }
+  }
+}

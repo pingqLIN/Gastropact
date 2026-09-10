@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Task Execution State v1 through v1.2",
+  "oneOf": [
+    {"$ref": "#/$defs/v1"},
+    {"$ref": "#/$defs/v11"},
+    {"$ref": "#/$defs/v12"}
+  ],
+  "$defs": {
+    "commonProperties": {
+      "schema_version": {"type": "string"},
+      "task_id": {"type": "string"},
+      "status": {"enum": ["READY", "RUNNING", "BLOCKED", "PASS", "FAILED", "SUPERSEDED"]},
+      "current_state": {"type": "string"},
+      "next_action_id": {"type": "string"},
+      "next_action": {"type": "string"},
+      "blocker": {"type": ["string", "null"]},
+      "resume_from": {"type": ["string", "null"]},
+      "last_verified": {"type": ["string", "null"]},
+      "last_verified_commit": {"type": ["string", "null"]},
+      "artifact_path": {"type": ["string", "null"]},
+      "updated_at": {"type": "string", "format": "date-time"}
+    },
+    "v1": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "task_id", "status", "current_state", "next_action_id", "next_action", "blocker", "resume_from", "last_verified", "last_verified_commit", "artifact_path", "updated_at"],
+      "properties": {
+        "schema_version": {"const": "1.0"},
+        "task_id": {"type": "string"},
+        "status": {"enum": ["READY", "RUNNING", "BLOCKED", "PASS", "FAILED", "SUPERSEDED"]},
+        "current_state": {"type": "string"},
+        "next_action_id": {"type": "string"},
+        "next_action": {"type": "string"},
+        "blocker": {"type": ["string", "null"]},
+        "resume_from": {"type": ["string", "null"]},
+        "last_verified": {"type": ["string", "null"]},
+        "last_verified_commit": {"type": ["string", "null"]},
+        "artifact_path": {"type": ["string", "null"]},
+        "updated_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "gateEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_type", "evidence_ref", "evidence_digest", "verified_at", "verified_action"],
+      "properties": {
+        "evidence_type": {"type": "string"},
+        "evidence_ref": {"type": "string"},
+        "evidence_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "verified_at": {"type": "string", "format": "date-time"},
+        "verified_action": {"type": "string"}
+      }
+    },
+    "gateStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "satisfied", "evidence"],
+      "properties": {
+        "id": {"type": "string"},
+        "satisfied": {"type": "boolean"},
+        "evidence": {"type": "array", "items": {"$ref": "#/$defs/gateEvidence"}}
+      }
+    },
+    "approvalV11": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action_id", "source", "approved_at", "scope"],
+      "properties": {
+        "action_id": {"type": "string"},
+        "source": {"const": "explicit-user"},
+        "approved_at": {"type": "string", "format": "date-time"},
+        "scope": {"type": "string", "minLength": 1}
+      }
+    },
+    "v11": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "task_id", "revision", "previous_state_digest", "status", "current_state", "completed_actions", "last_completed_action_id", "next_action_id", "next_action", "blocker", "resume_from", "rounds_completed", "benchmark_progress", "gate_status", "approvals", "last_verified", "last_verified_commit", "artifact_path", "updated_at"],
+      "properties": {
+        "schema_version": {"const": "1.1"},
+        "task_id": {"type": "string"},
+        "revision": {"type": "integer", "minimum": 0},
+        "previous_state_digest": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "status": {"enum": ["READY", "RUNNING", "BLOCKED", "PASS", "FAILED", "SUPERSEDED"]},
+        "current_state": {"type": "string", "minLength": 1},
+        "completed_actions": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "last_completed_action_id": {"type": ["string", "null"]},
+        "next_action_id": {"type": "string"},
+        "next_action": {"type": "string"},
+        "blocker": {"type": ["string", "null"]},
+        "resume_from": {"type": ["string", "null"]},
+        "rounds_completed": {"type": "integer", "minimum": 0},
+        "benchmark_progress": {"enum": ["none", "partial", "complete"]},
+        "gate_status": {"type": "array", "items": {"$ref": "#/$defs/gateStatus"}},
+        "approvals": {"type": "array", "items": {"$ref": "#/$defs/approvalV11"}},
+        "last_verified": {"type": ["string", "null"]},
+        "last_verified_commit": {"type": ["string", "null"]},
+        "artifact_path": {"type": ["string", "null"]},
+        "updated_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "approvalV12": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action_id", "source", "approved_at", "scope", "contract_hash", "state_revision"],
+      "properties": {
+        "action_id": {"type": "string", "minLength": 1},
+        "source": {"const": "explicit-user"},
+        "approved_at": {"type": "string", "format": "date-time"},
+        "scope": {"type": "string", "minLength": 1},
+        "contract_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "state_revision": {"type": "integer", "minimum": 0}
+      }
+    },
+    "v12": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "task_id", "revision", "previous_state_digest", "status", "current_state", "completed_actions", "last_completed_action_id", "next_action_id", "next_action", "blocker", "resume_from", "rounds_completed", "benchmark_progress", "gate_status", "approvals", "last_verified", "last_verified_commit", "artifact_path", "updated_at"],
+      "properties": {
+        "schema_version": {"const": "1.2"},
+        "task_id": {"type": "string"},
+        "revision": {"type": "integer", "minimum": 0},
+        "previous_state_digest": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "status": {"enum": ["READY", "RUNNING", "BLOCKED", "PASS", "FAILED", "SUPERSEDED"]},
+        "current_state": {"type": "string", "minLength": 1},
+        "completed_actions": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "last_completed_action_id": {"type": ["string", "null"]},
+        "next_action_id": {"type": "string"},
+        "next_action": {"type": "string"},
+        "blocker": {"type": ["string", "null"]},
+        "resume_from": {"type": ["string", "null"]},
+        "rounds_completed": {"type": "integer", "minimum": 0},
+        "benchmark_progress": {"enum": ["none", "partial", "complete"]},
+        "gate_status": {"type": "array", "items": {"$ref": "#/$defs/gateStatus"}},
+        "approvals": {"type": "array", "items": {"$ref": "#/$defs/approvalV12"}},
+        "last_verified": {"type": ["string", "null"]},
+        "last_verified_commit": {"type": ["string", "null"]},
+        "artifact_path": {"type": ["string", "null"]},
+        "updated_at": {"type": "string", "format": "date-time"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "PASS"}}, "required": ["status"]},
+          "then": {"properties": {"resume_from": {"type": "null"}}}
+        }
+      ]
+    }
+  }
+}

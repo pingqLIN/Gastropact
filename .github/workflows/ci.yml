@@ -1,0 +1,35 @@
+name: verify
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Provision pinned schema validator
+        run: npm ci --ignore-scripts
+      - name: Run POSIX checkpoint lock regression
+        if: ${{ runner.os == 'Linux' }}
+        run: python -m unittest -v tests.test_posix_lock
+      - name: Run deterministic repository gate
+        shell: pwsh
+        run: ./automation/verify.ps1
