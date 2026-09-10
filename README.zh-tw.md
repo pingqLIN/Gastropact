@@ -1,12 +1,16 @@
 # Gastropact 蝸契
 
-**炒飯一定要有鍋氣，專案肯定要用蝸契。**
-
-讓 AI 開發任務的每一步都有跡可循。
+以 TaskContracts 為核心，讓跨對話、跨人員與 AI 代理協作的每一步都有跡可循。
 
 [English](README.md)
 
-![蝸牛走過後留下半透明黏液痕跡，象徵 TaskContracts 保存可追溯的執行紀錄。](docs/assets/readme/taskcontracts-snail-hero-v3.png)
+<img src="docs/assets/readme/gastropact-banner.webp" alt="Gastropact 蝸牛廚師 Banner，角色帶著炒鍋前進並留下可追溯的行進痕跡。" width="100%">
+
+> **可追溯的工作，可靠的交接。** 炒飯一定要有鍋氣，專案肯定要用蝸契。
+
+[![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](#從這裡開始)
+[![TaskContracts v1.2](https://img.shields.io/badge/TaskContracts-v1.2-0f766e)](#命令與版本相容性)
+[![License MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Gastropact 蝸契是以 TaskContracts 任務協定為核心的本機 Python 命令列工具，適合需要跨對話、跨人員或跨 AI 代理協作的開發者。它保存已授權的目標、記錄進度、核對提交證據，並協助恢復中斷的狀態轉換。
 
@@ -15,6 +19,8 @@ Gastropact 蝸契是以 TaskContracts 任務協定為核心的本機 Python 命�
 > 目前為以原始碼提供的開發預覽版。Windows 與 Ubuntu WSL2 均已通過本機驗證，包含 Linux POSIX 檢查；遠端 CI 與實體斷電驗收仍未驗證。採用前請先閱讀[適用範圍與限制](#適用範圍與限制)；再使用條件請見 [MIT 授權條款](LICENSE)。
 
 蝸牛代表「走過便留下痕跡」：如同黏液軌跡標示牠曾經走過的路，TaskContracts 保存任務進度與狀態轉換紀錄，讓後續檢查與交接有跡可循。
+
+![Gastropact 蝸牛回頭低頭端詳自己走過的痕跡與沿途散落的食材。](docs/assets/readme/gastropact-trace-inspection.webp)
 
 [開始使用](#從這裡開始) · [開發痛點](#解決哪些開發問題) · [運作流程](#任務如何向前推進) · [驗證狀態](#驗證狀態) · [使用限制](#適用範圍與限制)
 
