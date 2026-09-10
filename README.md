@@ -4,7 +4,7 @@ A local Python CLI for traceable AI-assisted work across sessions, people, and a
 
 [繁體中文](README.zh-tw.md)
 
-<img src="docs/assets/readme/gastropact-banner.webp" alt="Gastropact snail chef banner, with the mascot carrying a wok and leaving a visible trail behind it." width="100%">
+<img src="docs/assets/readme/gastropact-banner-v2.png" alt="Gastropact snail chef banner, with the mascot carrying a wok and leaving a visible trail behind it." width="100%">
 
 > **Traceable work. Grounded handoffs.** Great fried rice needs wok hei; great projects need Gastropact.
 

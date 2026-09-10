@@ -4,7 +4,7 @@
 
 [English](README.md)
 
-<img src="docs/assets/readme/gastropact-banner.webp" alt="Gastropact 蝸牛廚師 Banner，角色帶著炒鍋前進並留下可追溯的行進痕跡。" width="100%">
+<img src="docs/assets/readme/gastropact-banner-v2.png" alt="Gastropact 蝸牛廚師 Banner，角色帶著炒鍋前進並留下可追溯的行進痕跡。" width="100%">
 
 > **可追溯的工作，可靠的交接。** 炒飯一定要有鍋氣，專案肯定要用蝸契。
 
