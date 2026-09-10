@@ -1,13 +1,16 @@
 # Gastropact 蝸契
 
-**Traceable work. Grounded handoffs.**
-
-> 炒飯一定要有鍋氣，專案肯定要用蝸契。
-> Great fried rice needs wok hei; great projects need Gastropact.
+A local Python CLI for traceable AI-assisted work across sessions, people, and agents.
 
 [繁體中文](README.zh-tw.md)
 
-![Gastropact snail chef banner, with the mascot carrying a wok and leaving a visible trail behind it.](docs/assets/readme/gastropact-banner.webp)
+<img src="docs/assets/readme/gastropact-banner.webp" alt="Gastropact snail chef banner, with the mascot carrying a wok and leaving a visible trail behind it." width="100%">
+
+> **Traceable work. Grounded handoffs.** Great fried rice needs wok hei; great projects need Gastropact.
+
+[![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](#start-here)
+[![TaskContracts v1.2](https://img.shields.io/badge/TaskContracts-v1.2-0f766e)](#commands-and-compatibility)
+[![License MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Gastropact is a local Python CLI built on the TaskContracts protocol for developers coordinating AI-assisted work across sessions, people, and agents. It preserves the authorized objective, records progress, checks submitted evidence, and helps recover interrupted state transitions.
 
