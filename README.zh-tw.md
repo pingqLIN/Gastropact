@@ -161,6 +161,7 @@ Windows 會跳過 POSIX 專用測試。請將跳過項目與整體結果分開�
 
 ## 參考資料與貢獻
 
+- [續接與完成 v1.2 任務](docs/v1.2-continuation.zh-tw.md)：唯讀接手、中斷快照與證據綁定結果。
 - [任務範本](templates/TASK.json)與[狀態範本](templates/STATE.json)：撰寫真實任務前先檢查版本化欄位；範本不是已授權、可直接執行的任務。
 - [契約結構描述](schema/task-contract.schema.json)、[狀態結構描述](schema/state.schema.json)與[結果結構描述](schema/executor-result.schema.json)：機器可讀的資料結構。
 - [交接引用結構描述](schema/handoff-task-contract-ref.schema.json)：為既有交接流程引用資料包，不授予狀態寫入能力。

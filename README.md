@@ -161,6 +161,7 @@ POSIX-only tests are skipped on Windows. Read the skip report separately from th
 
 ## Reference and contribution
 
+- [Resume and complete a v1.2 task](docs/v1.2-continuation.md): read-only intake, interruption checkpoints and evidence-bound results.
 - [Task template](templates/TASK.json) and [state template](templates/STATE.json): inspect the versioned fields before authoring a real task; templates are not already-authorized runnable tasks.
 - [Contract schema](schema/task-contract.schema.json), [state schema](schema/state.schema.json), and [result schema](schema/executor-result.schema.json): machine-readable structures.
 - [Handoff reference schema](schema/handoff-task-contract-ref.schema.json): a bundle reference for an existing handoff; it grants no state-write capability.
